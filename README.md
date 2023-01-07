@@ -1,5 +1,3 @@
 # Caltech-CS155-2023
 
-Assignments for Machine Learning & Data Assimilation, Winter 2023
-
-Completed by me, Manuel Rodriguez
+My Solutions to assignments for Caltech's CS 155 Machine Learning & Data Assimilation Course, Winter 2023
