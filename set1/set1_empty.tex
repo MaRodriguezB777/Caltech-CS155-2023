@@ -10,7 +10,8 @@
       Machine Learning \& Data Mining \hfill
       Caltech CS/CNS/EE 155 \hfill \\[1pt]
       Set 1\hfill
-      January $6^{th}$, 2023 \\
+      January $6^{th}$, 2023 \\[1pt]
+      \hfill Manuel Rodriguez
     }
   }
 }
@@ -66,56 +67,83 @@ Answer each of the following problems with 1-2 short sentences.
   What is a hypothesis set?
 \end{problem}
 \begin{solution}
-  
+  The set of all possible hypotheses that a given learning model
+  can yield.
 \end{solution}
 
 \begin{problem}[2]
   What is the hypothesis set of a linear model?
 \end{problem}
 \begin{solution}
-  
+  The set of all results to $sign(\bold{w}^T\bold{x} +b)$
+  where $b \in \mathbb{R}$, and $\bold{w}$ has the same 
+  dimensionality as the input data, $\bold{x}$.
 \end{solution}
 
 \begin{problem}[2]
   What is overfitting?
 \end{problem}
 \begin{solution}
-  
+  Overfitting occurs when a learning model performs very well on
+  a training sample but poorly out of sample. This means that
+  the model is learning information that is either randomly
+  determined or unlearnable.
 \end{solution}
 
 \begin{problem}[2]
   What are two ways to prevent overfitting?
 \end{problem}
 \begin{solution}
-  
+  Two ways to prevent overfitting are by increasing the size of
+  the training data (to decrease variance) or by decreasing the
+  complexity of the model you are using.
 \end{solution}
 
 \begin{problem}[2]
   What are training data and test data, and how are they used differently? Why should you never change your model based on information from test data?
 \end{problem}
 \begin{solution}
-  
+  Training data is used to choose a hypothesis that is hopefully
+  representative of the real target function that is desired. The
+  test data is used to get an estimate for how good this final
+  hypothesis is at approximating the target function. You can
+  never change your model based on test data information because
+  this makes it so that there is no guarantee on how well this
+  changed hypothesis approximates the target function.
 \end{solution}
 
 \begin{problem}[2]
   What are the two assumptions we make about how our dataset is sampled?
 \end{problem}
 \begin{solution}
-  
+  We assume that the dataset's samples are drawn randomly and
+  that they are representative of the target population's 
+  distribution.
 \end{solution}
 
 \begin{problem}[2]
   Consider the machine learning problem of deciding whether or not an email is spam. What could $X$, the input space, be? What could $Y$, the output space, be?
 \end{problem}
 \begin{solution}
-  
+  The input space could be all possible tuples with each entry
+  corresponding to either True or False depending on whether some
+  word is contained in an email. The output space could be a
+  True or False value (0 or 1) which corresponds to whether a
+  given tuple is identified as spam or not.
 \end{solution}
 
 \begin{problem}[2]
   What is the $k$-fold cross-validation procedure?
 \end{problem}
 \begin{solution}
-  
+  The $k$-fold cross-validation procedure involves dividing a
+  training set into training and validation data. The data is
+  divided into $N/ k$ groups and for each group division, train on
+  the remaining $N - N/ k$ data points and test on the N/ k
+  points. Average the test error across all the groups, and if
+  $k$ is small, then this test error is a good estimate for the
+  out of sample error when training the learning model on the
+  entire data set. 
 \end{solution}
 
 
@@ -173,41 +201,59 @@ The dataset \texttt{bv_data.csv} is provided and has a header denoting which col
 
 \end{problem}
 \begin{solution}
-  \end{solution}
+  \\
+  \url{https://colab.research.google.com/github/MaRodriguezB777/Caltech-CS155-2023/blob/main/set1/src/2_notebook.ipynb} \\
+  \graphicspath{{images/}}
+  \includegraphics[width=10cm, height=8cm]{Problem_2_d=1.png}\\
+  \includegraphics[width=10cm, height=8cm]{Problem_2_d=2.png}\\
+  \includegraphics[width=10cm, height=8cm]{Problem_2_d=6.png}\\
+  \includegraphics[width=10cm, height=8cm]{Problem_2_d=12.png}\\
+\end{solution}
 
 \begin{problem}[3]
   Based on the learning curves, which polynomial regression model (i.e. which degree polynomial) has the highest bias? How can you tell?
 \end{problem}
 \begin{solution}
-
+  The 1 degree polynomial regression model has the highest bias since it has the highest
+  average training error.
 \end{solution}
 
 \begin{problem}[3]
   Which model has the highest variance? How can you tell?
 \end{problem}
 \begin{solution}
-  
+  The 12 degree polynomial regression model has the highest variance because it has very
+  high error at small $N$ and only comes near the training error when $N$ is large.
 \end{solution}
 
 \begin{problem}[3]
   What does the learning curve of the quadratic model tell you about how much the model will improve if we had additional training points?
 \end{problem}
 \begin{solution}
-
+  If the number of points is too low, the training points have a higher probability of
+  being clustered or biased and thus be unrepresentative of the population distribution
+  we are trying to estimate. This is why we see that the bias and variance both go down
+  as we increase the number of data points.
 \end{solution}
 
 \begin{problem}[3]
   Why is training error generally lower than validation error?
 \end{problem}
 \begin{solution}
-  
+  Training error is generally lower than validation error because the algorithm we use
+  to determine a hypothesis principally tries to minimize the training error of the
+  data set and we hope that the validation error will also be low. Sometimes we can
+  get "lucky" and have the validation error be lower than the training error.
 \end{solution}
 
 \begin{problem}[3]
   Based on the learning curves, which model would you expect to perform best on some unseen data drawn from the same distribution as the training data, and why?
 \end{problem}
 \begin{solution}
-  
+  I would expect the quadratic polynomial model to perform the best because it seems to
+  have the best bias-variance tradeoff of all four models. The linear model has very
+  high bias and the d = 12 model has very high variance while the d = 6 model has 
+  similar bias to the quadratic model but a much higher variance.
 \end{solution}
 
 
@@ -246,7 +292,10 @@ Linear regression learns a model of the form:
   Include an additional element in $\mathbf{w}$ and $\mathbf{x}$.
 \end{hint}
 \begin{solution}
-  
+  We should redefine $\mathbf{x}$ as having a zeroth term, $x_{0} = 1$, and redefine $\mathbf{w}$ as having a zeroth term, $w_{0} = b$. This reduces the above formuation to 
+  \begin{align*}
+    f(x_1, x_2, \cdots, x_d) = \sum_{i=0}^d w_i x_i
+  \end{align*}
 \end{solution}
 
 Linear regression learns a model by minimizing the squared loss function $L$, which is the sum across all training data $\{(\mathbf{x}_1, y_1),\cdots,(\mathbf{x}_N, y_N)\}$ of the squared difference between actual and predicted output values:
@@ -256,7 +305,11 @@ Linear regression learns a model by minimizing the squared loss function $L$, wh
   Both GD and SGD uses the gradient of the loss function to make incremental adjustments to the weight vector $\mathbf{w}$. Derive the gradient of the squared loss function with respect to $\mathbf{w}$ for linear regression. Explain the difference in computational complexity in 1 update of the weight vector between GD and SGD. 
 \end{problem}
 \begin{solution}
-  
+  \begin{align*}
+    \nabla L(f) & = \sum_{i=1}^N \frac{\delta ((y_i - \mathbf{w}^T\mathbf{x}_i)^2)}{\delta \mathbf{w}} \\
+    & = -\sum_{i=1}^N 2\cdot(y_i - \mathbf{w}^T\mathbf{x}_i)\cdot \mathbf{x}_i
+  \end{align*}
+  With GD, the $N$ in the above equation corresponds to the number of data points whereas with SGD, the $N$ refers to some amount of points $K << N$. Therefore, GD is of the order of $O(N)$ and SGD is of the order of $O(K)$ where $N$ is the number of data points and $K$ is some number typically much smaller than $N$.
 \end{solution}
 
 The following few problems ask you to work with the first of two provided Jupyter notebooks for this problem, \texttt{3_notebook_part1.ipynb}, which includes tools for gradient descent visualization. This notebook utilizes the files \texttt{sgd_helper.py} and \texttt{multiopt.mp4}, but you should not need to modify either of these files. 
@@ -281,7 +334,7 @@ See code. %This does not need to be changed.
   Run the visualization code in the notebook corresponding to problem D. How does the convergence behavior of SGD change as the starting point varies? How does this differ between datasets 1 and 2? Please answer in 2-3 sentences.
 \end{problem}
 \begin{solution}
-
+  
 \end{solution}
 
 \begin{problem}[6]
@@ -418,7 +471,7 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   Finally, how does this generalize to N-dimension? More precisely, in N-dimensional space, what is the minimum size of a dataset that is not linearly separable, such that no $N$ points are on the same hyperplane? For the $N$-dimensional case, you may state your answer without proof or justification.
 \end{problem}
 \begin{solution}
-
+  
 \end{solution}
 
 \begin{problem}[2]
