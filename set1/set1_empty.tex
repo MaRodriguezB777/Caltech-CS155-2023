@@ -459,8 +459,10 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   
 \end{problem}
 \begin{solution}
-
-
+  \\
+  \graphicspath{{images/}}
+  \includegraphics[width=10cm, height=8cm]{Problem_4_A_Table.png}\\
+  \includegraphics[width=10cm, height=8cm]{Problem_4_A.png}\\
 \end{solution}
 
 \begin{problem}[4]
@@ -471,7 +473,8 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   Finally, how does this generalize to N-dimension? More precisely, in N-dimensional space, what is the minimum size of a dataset that is not linearly separable, such that no $N$ points are on the same hyperplane? For the $N$-dimensional case, you may state your answer without proof or justification.
 \end{problem}
 \begin{solution}
-  
+  In 2D space, the Perceptron breaks down at 4 points. The configuration of a triangle of points of one classification with one more point of opposing classification in the middle. In this configuration, there is no way to classify the middle point without also classifying one of the triangle points on either side of it incorrectly. In 3D space, the Perceptron breaks down at 5 points with the configuration of a triangle of coplanar points of one classification and two more points on opposite sides of the triangle of opposing classification, through the triangle's centroid. Similar to the 2D case, there is no plane that can divide both outer points correctly without misclassifying one of the triangle points on either side of the plane.  \\
+  This generalizes to that the Perceptron breaks down at N + 2 points in an N-dimensional space, assuming that we are not allowed to have all the points lie  on the same hyperplane.
 \end{solution}
 
 \begin{problem}[2]
