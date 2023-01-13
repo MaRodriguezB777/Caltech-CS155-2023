@@ -75,7 +75,7 @@ Answer each of the following problems with 1-2 short sentences.
   What is the hypothesis set of a linear model?
 \end{problem}
 \begin{solution}
-  The set of all results to $sign(\bold{w}^T\bold{x} +b)$
+  The set of all results to $\bold{w}^T\bold{x} +b$
   where $b \in \mathbb{R}$, and $\bold{w}$ has the same 
   dimensionality as the input data, $\bold{x}$.
 \end{solution}
@@ -259,10 +259,8 @@ The dataset \texttt{bv_data.csv} is provided and has a header denoting which col
   Based on the learning curves, which model would you expect to perform best on some unseen data drawn from the same distribution as the training data, and why?
 \end{problem}
 \begin{solution}
-  I would expect the quadratic polynomial model to perform the best because it seems to
-  have the best bias-variance tradeoff of all four models. The linear model has very
-  high bias and the d = 12 model has very high variance while the d = 6 model has 
-  similar bias to the quadratic model but a much higher variance.
+  I would expect the 6th degree polynomial model to perform the best because it seems to
+  have the best bias-variance tradeoff of all four models, with the lowest overall out of sample error. The linear model has very high bias and the d = 12 model has very high variance while the d = 2 model has similar bias and variance, with enough training points, the 6th degree polynomial has a lower error.
 \end{solution}
 
 
@@ -389,7 +387,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
 \begin{solution}
   \\
   \url{https://colab.research.google.com/drive/1YVETEMhLil3eSG7ax1USlk6xmBWQIL6E?usp=sharing} \\
-  Using 800 epochs, $b_{final} = 0.00099996$ and $w_{final} = [0.00099972, 0.00099985, 0.00099964, 0.00099992]$
+  Using 800 epochs, $b_{final} = -0.22720591$ and $w_{final} = [-5.94229011, 3.94369494, -11.72402388, 8.78549375]$
   
 \end{solution}
 
@@ -401,7 +399,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
   \graphicspath{{images/}}
   \includegraphics[width=10cm]{Problem_3_H.png}
   \\
-  The $\eta$ values are too small and are thus making it so that each epoch barely alters the hypothesis and our weights and bias. This makes it so that the test error remains relatively constant or takes a long time to change. The 1e-10 $\eta$ value is most reasonable to use, in comparison to the others. 
+  The $\eta$ values are too small and are thus making it so that each epoch barely alters the hypothesis and our weights and bias. This makes it so that the test error remains relatively constant or takes a long time to change.
 \end{solution}
 
 
