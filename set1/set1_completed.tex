@@ -211,7 +211,7 @@ The dataset \texttt{bv_data.csv} is provided and has a header denoting which col
 \end{problem}
 \begin{solution}
   \\
-  \url{https://colab.research.google.com/github/MaRodriguezB777/Caltech-CS155-2023/blob/main/set1/src/2_notebook.ipynb} \\
+  \url{https://colab.research.google.com/drive/1WkDZSAstOmldYx0A5vaf-Q8HqdtBSgCF?usp=sharing} \\
   \graphicspath{{images/}}
   \includegraphics[width=10cm, height=8cm]{Problem_2_d=1.png}\\
   \includegraphics[width=10cm, height=8cm]{Problem_2_d=2.png}\\
@@ -347,7 +347,8 @@ For your implementation of problems D-F, \textbf{do not} consider the bias term.
   \end{itemize}
 \end{problem}
 \begin{solution}
-See code. %This does not need to be changed.
+See code. 
+\\ \url{https://colab.research.google.com/drive/1aXXdvJSYuKjImEn0hQplw-iI0vsuwUZ9?usp=sharing}  %This does not need to be changed.
 \end{solution}
 
 \begin{problem}[2]
@@ -387,6 +388,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
 \end{problem}
 \begin{solution}
   \\
+  \url{https://colab.research.google.com/drive/1YVETEMhLil3eSG7ax1USlk6xmBWQIL6E?usp=sharing} \\
   Using 800 epochs, $b_{final} = 0.00099996$ and $w_{final} = [0.00099972, 0.00099985, 0.00099964, 0.00099992]$
   
 \end{solution}
@@ -491,6 +493,8 @@ The following few problems ask you to work with the provided Jupyter notebook fo
 \end{problem}
 \begin{solution}
   \\
+  \url{https://colab.research.google.com/drive/1lyJWhHxZgQuCgGrPS-pXbIXzTZgswxHg?usp=sharing}
+  \\
   \graphicspath{{images/}}
   \includegraphics[width=10cm, height=8cm]{Problem_4_A_Table.png}\\
   \includegraphics[width=10cm, height=8cm]{Problem_4_A.png}\\
@@ -501,7 +505,7 @@ The following few problems ask you to work with the provided Jupyter notebook fo
 
   In 2D space, what is the minimum size of a dataset that is not linearly separable, such that no three points are collinear? How about the minimum size of a dataset in 3D that is not linearly separable, such that no four points are coplanar? Please limit your explanation to a few lines - you should justify but not prove your answer.
 
-  Finally, how does this generalize to N-dimension? More precisely, in N-dimensional space, what is the minimum size of a dataset that is not linearly separable, such that no $N$ points are on the same hyperplane? For the $N$-dimensional case, you may state your answer without proof or justification.
+  Finally, how does this generalize to N-dimension? More precisely, in N-dimensional space, what is the minimum size of a dataset that is not linearly separable, such that no $N+1$ points are on the same hyperplane? For the $N$-dimensional case, you may state your answer without proof or justification.
 \end{problem}
 \begin{solution}
   In 2D space, the Perceptron breaks down at 4 points. The configuration of a triangle of points of one classification with one more point of opposing classification in the middle. In this configuration, there is no way to classify the middle point without also classifying one of the triangle points on either side of it incorrectly. In 3D space, the Perceptron breaks down at 5 points with the configuration of a triangle of coplanar points of one classification and two more points on opposite sides of the triangle of opposing classification, through the triangle's centroid. Similar to the 2D case, there is no plane that can divide both outer points correctly without misclassifying one of the triangle points on either side of the plane.  \\
