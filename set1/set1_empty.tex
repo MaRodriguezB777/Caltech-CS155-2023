@@ -279,14 +279,25 @@ The dataset \texttt{bv_data.csv} is provided and has a header denoting which col
 Stochastic gradient descent (SGD) is an important optimization method in machine learning, used everywhere from logistic regression to training neural networks. In this problem, you will be asked to analyze gradient descent and implement SGD for linear regression using the squared loss function. Then, you will analyze how several parameters affect the learning process.
 
 \begin{problem}[3]
-    To verify the convergence of our gradient descent algorithm, consider the task of minimizing a function $f$ (assume that $f$ is continuously differentiable). Using Taylor's theorem, show that if $x'$ is a local minimum of $f$, then $\nabla f(x') = 0$. 
+    To verify the convergence of our gradient descent algorithm, consider the task of minimizing a function $f$ (assume that $f$ is continuously differentiable). Using Taylor's theorem, show that if $x'$ is a local minimum of $f$, then $\nabla f(x') = 0$.
 \end{problem}
 \begin{hint}
   First-order Taylor expansion gives that for some $x, h \in \mathbb{R}^n$, there exists $c \in (0, 1)$ such that $f(x + h) = f(x) + \nabla f(x + c\cdot h)^T h$.
   
 \end{hint}
 \begin{solution}
-
+  \\ We will use a particular h to show that $\nabla f(x')^T \nabla f(x') \leq 0 \implies \nabla f(x') = 0$ since the magnitude of a vector must be nonnegative.
+  \\ Since we know that x' is a local minimum, then for small enough h, $f(x'+h) \geq f(x')$
+  \\ Using Taylor's Theorem we know: $f(x' + h) = f(x') + \nabla f(x' + c\cdot h)^T h$
+  \\ Plugging this into the inequality: 
+  \\ $f(x') + \nabla f(x' + c\cdot h)^T h \geq f(x')\implies \nabla f(x' + c\cdot h)^T h \geq 0$
+  \\ Let $h = -\alpha \nabla f(x') \ s.t. \ \alpha \geq 0 \ and \ \ h \text{ is small enough that } f(x' + h) \geq f(x')$
+  \\ Then, we know that:
+  \\ $-\nabla f(x' + c\cdot -\alpha \nabla f(x'))^T \alpha \nabla f(x') \geq 0$ \ \ \ \ \ (dividing by $-\alpha$)
+  \\ $\nabla f(x' + c\cdot -\alpha \nabla f(x'))^T \nabla f(x') \leq 0$
+  \\ Taking $\alpha \to 0$:
+  \\ $\lim_{\alpha \to 0} \nabla f(x' + c\cdot -\alpha \nabla f(x'))^T \nabla f(x') \leq 0$
+  \\ $\nabla f(x')^T \nabla f(x') \leq 0 \implies \nabla f(x') = 0$ \hfill $\square$
 \end{solution}
 
 Linear regression learns a model of the form:
