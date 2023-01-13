@@ -171,7 +171,16 @@ Answer each of the following problems with 1-2 short sentences.
 \end{problem}
 
 \begin{solution}
-  
+  \begin{align*}
+    \E_S\left[E_\text{out}\left(f_S\right)\right] = \E_S\left[\E_x\left[\left(f_S(x) - y(x)\right)^2\right]\right] &= \E_x\left[\E_S\left[\left(f_S(x) - y(x)\right)^2\right]\right] \\
+    &= \E_x\left[E_S\left[\left(f_S(x) - F(x) + F(x) - y(x)\right)^2\right]\right] \\
+    &= \E_x[\E_S[\left(f_S(x) - F(x)\right)^2 + \left(F(x) - y(x)\right)^2
+     \\ & \ \ \ \ \ + 2 \cdot \left(f_S(x) - F(x)\right)\left(F(x) - y(x)\right)]] \\
+    &= \E_x[\left(f_S(x) - F(x)\right)^2 + \left(F(x) - y(x)\right)^2
+     \\ & \ \ \ \ \ + 2 \cdot (F(x) - F(x))(F(x) - y(x))] \\
+    &= \E_x[(f_S(x) - F(x))^2 + (F(x) - y(x))^2] \\
+    &= \E_x[Var(x) + Bias(x)] = \E_x[Bias(x) + Var(x)] \ \ \ \ \ \square
+  \end{align*}
 \end{solution}
 
 In the following problems you will explore the bias-variance tradeoff by producing learning curves for polynomial regression models.
@@ -334,7 +343,7 @@ See code. %This does not need to be changed.
   Run the visualization code in the notebook corresponding to problem D. How does the convergence behavior of SGD change as the starting point varies? How does this differ between datasets 1 and 2? Please answer in 2-3 sentences.
 \end{problem}
 \begin{solution}
-  
+  Each starting point varies the path length and trajectory of the PLA convergence. Though it is the case in dataset 1 as well, with dataset 2 it is much clearer that from some starting points PLA converges very quickly to near its optimal value while with others it can take very long and get only slowly near the optimal value.
 \end{solution}
 
 \begin{problem}[6]
@@ -342,7 +351,10 @@ See code. %This does not need to be changed.
 \end{problem}
 
 \begin{solution}
-
+  \\
+  \graphicspath{{images/}}
+  \includegraphics[width=10cm]{Problem_3_F.png} \\
+  This shows us that as we increase $\eta$, the convergence rate of the SGD increases. However, if $\eta$ is too big, then it could be the case that each step is overshooting the minimum and that could cause the SGD to diverge.
 \end{solution}
 
 
@@ -363,13 +375,20 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
   %$\epsilon$ here is a measure of how much change in error there is compared to the initial error in the epoch. Calculate the change in error every epoch and compare it to the change in error from the first epoch. If new change/initial change is less than $\epsilon$, stop the training. $\eta$ is the factor by which you multiply the gradient in each step of the descent, and $\mathbf{w}$ is the initial weight vector.
 \end{problem}
 \begin{solution}
+  \\
+  Using 800 epochs, $b_{final} = 0.00099996$ and $w_{final} = [0.00099972, 0.00099985, 0.00099964, 0.00099992]$
+  
 \end{solution}
 
 \begin{problem}[2]
   Perform SGD as in the previous problem for each learning rate $\eta$ in \[\{e^{-10}, e^{-11}, e^{-12}, e^{-13}, e^{-14}, e^{-15}\},\] and calculate the training error at the beginning of each epoch during training.  On a single plot, show training error vs. number of epochs trained for each of these values of $\eta$. Explain what is happening.
 \end{problem}
 \begin{solution}
-  
+  \\
+  \graphicspath{{images/}}
+  \includegraphics[width=10cm]{Problem_3_H.png}
+  \\
+  The $\eta$ values are too small and are thus making it so that each epoch barely alters the hypothesis and our weights and bias. This makes it so that the test error remains relatively constant or takes a long time to change. The 1e-10 $\eta$ value is most reasonable to use, in comparison to the others. 
 \end{solution}
 
 
@@ -377,7 +396,8 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
   The closed form solution for linear regression with least squares is \[\mathbf{w} = \left(\sum_{i=1}^N \mathbf{x_i}\mathbf{x_i}^T\right)^{-1}\left(\sum_{i=1}^N \mathbf{x_i}y_i\right).\]  Compute this analytical solution.  Does the result match up with what you got from SGD?
 \end{problem}
 \begin{solution}
- 
+  \\
+ The analytical solution yields: $b = -0.31644251, $ and $w = [-5.99157048,  4.01509955, -11.93325972, \\ 8.99061096]$. This does not match what we got with the SGD and that makes because we saw in our plot that for $\eta = 1e-15$, the step size is too small to make any changes to the weight vectors.
 \end{solution}
 
 Answer the remaining questions in 1-2 short sentences.
@@ -386,14 +406,14 @@ Answer the remaining questions in 1-2 short sentences.
   Is there any reason to use SGD when a closed form solution exists?
 \end{problem}
 \begin{solution}
-  
+  It could be better to use SGD because the closed form solution is expensive to compute when the number of examples becomes very large since we would have to compute the inverse of an N x N matrix where N is the number of examples.
 \end{solution}
 
 \begin{problem}[2]
   Based on the SGD convergence plots that you generated earlier, describe a stopping condition that is more sophisticated than a pre-defined number of epochs.
 \end{problem}
 \begin{solution}
-  
+  A more sophisticated method would be to stop the SGD when the difference in training error between the last epoch and the current epoch is less than some $\epsilon$ or if the average training error between the last, for example, 100 epochs and the most recent 100 epochs is less than some $\epsilon$. 
 \end{solution}
 
 
@@ -481,12 +501,14 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   Run the visualization code in the Jupyter notebook section corresponding to question C (report your plots). Assume a dataset is \emph{not} linearly separable. Will the Perceptron Learning Algorithm ever converge? Why or why not?
 \end{problem}
 \begin{solution}
-
+  The Perceptron will never converge because it will continue to search for a perfect soluion where there isn't one. It will continue to run in a loop until the user tells it stop manually.
 \end{solution}
 
 \begin{problem}[2]
 How does the convergence behavior of the weight vector differ between the perceptron and SGD algorithms? Think of comparing, at a high level, their smoothness and whether they always converge (You don't need to implement any code for this problem.)
 \end{problem}
 \begin{solution}
+  The Perceptron seems to have a rougher convergence behavior than the SGD. Though both methods try to move the weights based on the error of the current hypothesis, the Perceptron uses an all or nothing approach and can often overshoot because it is just changing based on a constant weight (+1 or -1) and a single point. On the other hand, the SGD tries to act based the average behavior. Naturally, this makes the SGD be a bit smoother in transition but also more dependent on the step size that we choose. \\
+  The Perceptron does not always converge because not all data is linearly separable and SGD does not always converge because there could be no minimum to the target function but also because the step size might be too large and cause us to miss a local minimum.
 \end{solution}
 \end{document}
