@@ -386,7 +386,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
 \end{problem}
 \begin{solution}
   \\
-  \url{https://colab.research.google.com/drive/1YVETEMhLil3eSG7ax1USlk6xmBWQIL6E?usp=sharing} \\
+  \url{https://colab.research.google.com/drive/14CoEKlVE_aGCvin20PIKto_y98GZ_5VP?usp=sharing} \\
   Using 800 epochs, $b_{final} = -0.22720591$ and $w_{final} = [-5.94229011, 3.94369494, -11.72402388, 8.78549375]$
   
 \end{solution}
@@ -399,7 +399,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
   \graphicspath{{images/}}
   \includegraphics[width=10cm]{Problem_3_H.png}
   \\
-  The $\eta$ values are too small and are thus making it so that each epoch barely alters the hypothesis and our weights and bias. This makes it so that the test error remains relatively constant or takes a long time to change.
+  The same behavior occurs as in the last graph where we see that as $\eta$ becomes larger, our convergence rate increases. Also, with such small $\eta$, these SGDs all converge eventually.
 \end{solution}
 
 
@@ -408,7 +408,7 @@ For your implementation of problems G-I, \textbf{do} consider the bias term usin
 \end{problem}
 \begin{solution}
   \\
- The analytical solution yields: $b = -0.31644251, $ and $w = [-5.99157048,  4.01509955, -11.93325972, \\ 8.99061096]$. This does not match what we got with the SGD and that makes because we saw in our plot that for $\eta = 1e-15$, the step size is too small to make any changes to the weight vectors.
+ The analytical solution yields: $b = -0.31644251, $ and $w = [-5.99157048,  4.01509955, -11.93325972, \\ 8.99061096]$. This does match what we got with the SGD and that makes sense because we saw in our plot that for all the $\eta$ used, the SGD seemed to converge, thereby being a good approximation for the true minimum given by the analytic solution.
 \end{solution}
 
 Answer the remaining questions in 1-2 short sentences.
@@ -417,7 +417,7 @@ Answer the remaining questions in 1-2 short sentences.
   Is there any reason to use SGD when a closed form solution exists?
 \end{problem}
 \begin{solution}
-  It could be better to use SGD because the closed form solution is expensive to compute when the number of examples becomes very large since we would have to compute the inverse of an N x N matrix where N is the number of examples.
+  It could be better to use SGD because the closed form solution is expensive to compute when the number of examples becomes very large since we would have to compute the inverse of an N x N matrix where N is the number of examples (this computation would be $O(N^2)$).
 \end{solution}
 
 \begin{problem}[2]
@@ -514,7 +514,7 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   Run the visualization code in the Jupyter notebook section corresponding to question C (report your plots). Assume a dataset is \emph{not} linearly separable. Will the Perceptron Learning Algorithm ever converge? Why or why not?
 \end{problem}
 \begin{solution}
-  The Perceptron will never converge because it will continue to search for a perfect soluion where there isn't one. It will continue to run in a loop until the user tells it stop manually.
+  The Perceptron will never converge because it will continue to search for a perfect solution where there isn't one. It will continue to run in a loop until the user tells it stop manually.
 \end{solution}
 
 \begin{problem}[2]
