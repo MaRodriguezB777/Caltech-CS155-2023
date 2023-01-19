@@ -84,9 +84,7 @@ Answer each of the following problems with 1-2 short sentences.
   What is overfitting?
 \end{problem}
 \begin{solution}
-  Overfitting occurs when a learning model performs very well on
-  a training sample but poorly out of sample. This means that
-  the model is learning information that is either randomly
+  Overfitting occurs when a learning model performs very well on a training sample but poorly out of sample. This means that the model is learning information that is either randomly
   determined or unlearnable.
 \end{solution}
 
@@ -94,21 +92,14 @@ Answer each of the following problems with 1-2 short sentences.
   What are two ways to prevent overfitting?
 \end{problem}
 \begin{solution}
-  Two ways to prevent overfitting are by increasing the size of
-  the training data (to decrease variance) or by decreasing the
-  complexity of the model you are using.
+  Two ways to prevent overfitting are by increasing the size of the training data (to decrease variance) or by decreasing the complexity of the model you are using.
 \end{solution}
 
 \begin{problem}[2]
   What are training data and test data, and how are they used differently? Why should you never change your model based on information from test data?
 \end{problem}
 \begin{solution}
-  Training data is used to choose a hypothesis that is hopefully
-  representative of the real target function that is desired. The
-  test data is used to get an estimate for how good this final
-  hypothesis is at approximating the target function. You can
-  never change your model based on test data information because
-  this makes it so that there is no guarantee on how well this
+  Training data is used to choose a hypothesis that is hopefully representative of the real target function that is desired. The test data is used to get an estimate for how good this final hypothesis is at approximating the target function. You can never change your model based on test data information because this makes it so that there is no guarantee on how well this
   changed hypothesis approximates the target function.
 \end{solution}
 
@@ -116,9 +107,7 @@ Answer each of the following problems with 1-2 short sentences.
   What are the two assumptions we make about how our dataset is sampled?
 \end{problem}
 \begin{solution}
-  We assume that the dataset's samples are drawn randomly and
-  that they are representative of the target population's 
-  distribution.
+  We assume that the dataset's samples are drawn such that every data point is equally likely to be drawn and that the samples are representative of the target population's distribution.
 \end{solution}
 
 \begin{problem}[2]
@@ -417,7 +406,7 @@ Answer the remaining questions in 1-2 short sentences.
   Is there any reason to use SGD when a closed form solution exists?
 \end{problem}
 \begin{solution}
-  It could be better to use SGD because the closed form solution is expensive to compute when the number of examples becomes very large since we would have to compute the inverse of an N x N matrix where N is the number of examples (this computation would be $O(N^2)$).
+  It could be better to use SGD because the closed form solution is expensive to compute when the number of examples becomes very large since we would have to compute the inverse of an N x N matrix where N is the number of examples.
 \end{solution}
 
 \begin{problem}[2]
@@ -514,6 +503,10 @@ The following few problems ask you to work with the provided Jupyter notebook fo
   Run the visualization code in the Jupyter notebook section corresponding to question C (report your plots). Assume a dataset is \emph{not} linearly separable. Will the Perceptron Learning Algorithm ever converge? Why or why not?
 \end{problem}
 \begin{solution}
+  \\
+  \graphicspath{{images/}}
+  \includegraphics[width=12cm]{Problem_4_C.png}
+  \\
   The Perceptron will never converge because it will continue to search for a perfect solution where there isn't one. It will continue to run in a loop until the user tells it stop manually.
 \end{solution}
 
