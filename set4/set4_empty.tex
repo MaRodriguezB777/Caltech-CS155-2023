@@ -145,8 +145,10 @@ Explain why a network with fewer layers than the number you specified cannot com
 
 \end{subsolution}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROBLEM 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% problem 3
 \newpage
 \section{Inside a Neural Network  [17 Points]}
 
@@ -166,7 +168,7 @@ To install both packages, follow the steps on \\
 Once you have finished installing, write down the version numbers for both \textbf{torch} and \textbf{torchvision} that you have installed.
 
 \begin{solution}
-
+  The PyTorch version is 1.13.1+cu116, and the torchvision version is 0.14.1+cu116.
 \end{solution}
 
 \problem \textbf{The Data} \textbf{[5 Points]}
@@ -176,7 +178,7 @@ Load and preprocess the tabular dataset, "COVID-19\_Case\_Surveillance\_Public\_
 Explain your preprocessing decisions.
 
 \begin{solution}
-
+  In my preprocessing decisions, I took out the $\texttt{cdc_report_dt}$ field because it is redundant information it is recommended to use $\texttt{cdc_case_earliest_dt}$ instead. Also, I decided to take out the \texttt{race_ethnicity_combined} field because in a real study, it would be unethical to use and thus whatever information is discovered here, in order to be similar to results in the real world, should not include this field. This leaves us with 9 input fields to use. We changed all the date-time fields to be integer values and normalized all columns (individually) using $\texttt{sklearn's StandardScaler}$.
 \end{solution}
 
 
@@ -189,7 +191,10 @@ Finally, visualize the weight vectors in your model with a heatmap.
 Make sure to show training losses and test accuracy clearly in your notebook.
 
 \begin{solution}
-
+  The heatmap for the weights:
+  \\
+  \includegraphics[width=12cm]{images/P2_C.png} \\
+  My average Training Loss is around 0.00002 and my average Test Loss is around 0.0290. The Test Accuracy achieved is around 97.75\%.
 \end{solution}
 
 
@@ -198,7 +203,8 @@ Make sure to show training losses and test accuracy clearly in your notebook.
 Finally, create and train a 2-layer linear neural network and assess its performance on your dataset. It is expected that the 1-layer and 2-layer models have very similar losses--why is this the case?
 
 \begin{solution}
-
+  \\
+  The 1-layer and 2-layer models are expected to have similar losses because applying two linear models on top of each other is mostly redundant unless some new information is introduced. In other words, all linear information that could have been learned was already done in the first layer.
 \end{solution}
 
 
