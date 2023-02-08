@@ -76,11 +76,14 @@
   Backpropagation and Weight Initialization Part 1
 \end{problem}
 
-Fit the neural network at \href{http://playground.tensorflow.org/#activation=relu&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.65409&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false}{this link} for about 250 iterations, and then do the same for the neural network at  \href{http://playground.tensorflow.org//\#activation=relu&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.6&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=true&hideText=false}{this link}.  Both networks have the same architecture and use ReLU activations.  The only difference between the two is how the layer weights were initialized -- you can examine the layer weights by hovering over the edges between neurons.
+Fit the neural network at \href{http://playground.tensorflow.org/#activation=relu&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.65409&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false}{this link} for about 250 iterations, and then do the same for the neural network at \href{http://playground.tensorflow.org//\#activation=relu&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.6&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=true&hideText=false}{this link}.  Both networks have the same architecture and use ReLU activations.  The only difference between the two is how the layer weights were initialized -- you can examine the layer weights by hovering over the edges between neurons.
 
 Give a mathematical justification, based on what you know about the backpropagation algorithm and the ReLU function, for the difference in the performance of the two networks.
 
 \begin{subsolution}
+  The difference between the two demos is that the second demo does not seem to learn. We will analyze why the second demo does not learn. \\
+  Using the notation from lecture, for any given Loss Function $\mathbb{L}$, the contribution of all the weights $\mathbf{W}^{l}$, the weights in layer $l$, is given by $$\nabla{L}_{\mathbf{W}^{l}} = \frac{\partial \mathbb{L}}{\partial \mathbf{W}^{l}} = \frac{\partial \mathbb{L}}{\partial \mathbf{x}^{l}} \cdot \frac{\partial \mathbf{x}^{l}}{\partial \mathbf{s}^{l}} \cdot \frac{\partial \mathbf{s}^{l}}{\partial \mathbf{W}^{l}}$$
+  With $\frac{\partial \mathbf{s}^{l}}{\partial \mathbf{W}^{l}} = \mathbf{x}^{l-1}$, and $\mathbf{x}^{m}$ is the output layer at layer $m$. In the second demo, all these $\mathbf{x}^{m}$ are zero and thus it makes the $\nabla{L}_{\mathbf{W}^{l}} = 0$ for all $\mathbf{W}^{l}$ except for those in the first layer since $\mathbf{x}^0$ are not necessarily zero, but even in this case, we know that the signal $s^l$ is zero and thus ${\partial \mathbf{x}^{l}}{\partial \mathbf{s}^{l}} = ReLU'(\mathbf{s}^{l}) = ReLU'(0)$ which is undefined or zero $\implies$ the loss $\mathbb{L}$ does not change according to the backpropagation algorithm. 
 
 \end{subsolution}
 
@@ -94,7 +97,7 @@ Explain the differences in the models learned, and the speed at which they were 
 
 
 \begin{subsolution}
-
+  From the two demos, the first one, the one with proper weights, is the only one that really changed (the second is still not learning at all). The first demo with Sigmoid at 4000 epochs ends up having a higher test error than that same demo with ReLU after just 250 epochs (though they are both low test errors). This can be explained by Sigmoid's asymptotic behavior near its edges which results in SGD taking very small steps since the gradient in that area is near zero. In contrast to this, ReLU has a constant gradient which allows it to more quickly adjust when learning. 
 \end{subsolution}
 
 
@@ -106,7 +109,7 @@ When training any model using SGD, it's important to shuffle your data to avoid 
 \textit{}
 
 \begin{solution}
-
+  If we feed ReLU all the negative examples first, then our backpropagation will train our model to have negative weights everywhere. This is to cancel out all the negative values with negative weights so that the input to ReLU is positive. Once we start incorporating positive examples after training on the 500 negative values, we have a situation similar to the second demo where all the weights are zero. Since all the weights are negative and our input values are positive, the input to ReLU will be negative and thus the output will be zero, this makes it so that our backpropagation does not change the weights since our gradient of ReLU will be zero. 
 \end{solution}
 
 
@@ -124,7 +127,8 @@ Draw or describe a fully-connected network with ReLU units that implements the O
 Your network need only produce the correct output when $x_1 \in \{0, 1\}$ and $x_2 \in \{0, 1\}$ (as described in the examples above).
 
 \begin{subsolution}
-
+  \\
+  Contains two layers: input layer and an output layer. Model would take the inputs $x_1$ and $x_2$, have weights $w_1 = 1$ and $w_2 = 1$ and use $ReLU$ as an activation function. If either of $x_1$ or $x_2$ are nonzero, then the output will be $ReLU(x_{1}w_{1} + x_{2}w_{2}) = x_{1}w{1} + x{2}w{2} \geq 0$. If both $x_1$ and $x_2$ are zero though, then the output will be $ReLU(x_{1}w_{1} + x_{2}w_{2}) = 0$.
 \end{subsolution}
 
 \problem Approximating Functions Part 2 \textbf{[8 Points]}
@@ -142,7 +146,7 @@ Explain why a network with fewer layers than the number you specified cannot com
 
 
 \begin{subsolution}
-
+  The minimum number of fully-connected layers would be 2, with 1 input layer, 1 hidden layer, and 1 output layer. This is because XOR is not a linearly separable classification problem and thus must be modeled by multiple Linear Functions combined.
 \end{subsolution}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,11 +211,10 @@ Finally, create and train a 2-layer linear neural network and assess its perform
   The 1-layer and 2-layer models are expected to have similar losses because applying two linear models on top of each other is mostly redundant unless some new information is introduced. In other words, all linear information that could have been learned was already done in the first layer.
 \end{solution}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROBLEM 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-% problem 3
 \newpage
 \section{Depth vs Width on the MNIST Dataset  [23 Points]}
 
@@ -258,7 +261,7 @@ Look at the sample code to see how to train your model. PyTorch should make it v
 \textit{Hint}: for best results on this problem and the two following problems, normalize the input vectors by dividing the values by 255 (as the pixel values range from 0 to 255).
 
 \begin{solution}
-  
+
 \end{solution}
 
 
@@ -278,8 +281,12 @@ Look at the sample code to see how to train your model. PyTorch should make it v
 
 \end{solution}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROBLEM 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
  \newpage
- % problem 4
  \section{Convolutional Neural Networks  [40 Points]}
  \textit{Relevant Materials: Lecture on CNNs}
 
@@ -297,7 +304,8 @@ Figure: A convolution being applied to a $2 \times 2$ patch (the red square) of 
 What is one benefit and one drawback to this zero-padding scheme (in contrast to an approach in which we only perform convolutions over patches entirely contained within an image)?
 
 \begin{solution}
-
+  A benefit of using the zero-padding is that it creates a more accurate model for analysis. This is because as the CNN goes through its filter layers, and especially if they are large filters, the dimensions of the input image will shrink and could potentially become so small that certain features become unlearnable. The padding makes it so that the description of the image that the CNN has is more descriptive. \\
+  A drawback of using the zero-padding is that it increases the amount of computation that you can do since now there isa larger image with more information being supplied to the CNN to process.
 \end{solution}
 
 \subsection{5 x 5 Convolutions}
@@ -314,7 +322,7 @@ Consider a single convolutional layer, where your input is a $32 \times 32$ pixe
 \problem[2] What is the number of parameters (weights) in this layer, including a bias term? What is the shape of the output tensor?
 
 \begin{subsolution}
-
+  The number of convolutions $= (32 - (5 - 1))^2 = (28)^2 = 784$, this is equivalent to the number of parameters (weights) in this layer that need to be determined but adding the bias term we get $785$. The shape of the output tensor is then $28 \times 28 \times 8$.
 \end{subsolution}
 
 
@@ -369,8 +377,36 @@ $$
 
 \begin{subsolution}
 \begin{enumerate}
-    \item Average pooling:
-    \item Max pooling:
+    \item Average pooling - Here are the results for each of the 4 matrices:
+    $$
+    \begin{bmatrix}
+        1 & \frac{1}{2} \\
+        \frac{1}{2} & \frac{1}{4}
+    \end{bmatrix},
+    %
+    \begin{bmatrix}
+      \frac{1}{2} & 1 \\
+      \frac{1}{4} & \frac{1}{2}
+    \end{bmatrix},
+    %
+    \begin{bmatrix}
+      \frac{1}{4} & \frac{1}{2} \\
+      \frac{1}{2} & 1
+    \end{bmatrix},
+    %
+    \begin{bmatrix}
+      \frac{1}{2} & \frac{1}{4} \\
+      1 & \frac{1}{2}
+    \end{bmatrix}
+    $$
+
+    \item Max pooling - Since all blocks in each of the 4 matrices has a `1`, all the matrices would reduce to:
+    $$
+    \begin{bmatrix}
+      1 & 1 \\
+      1 & 1
+    \end{bmatrix}
+    $$
 \end{enumerate}
 \end{subsolution}
 
@@ -380,7 +416,7 @@ $$
 Consider a scenario in which we wish to classify a dataset of images of various animals, taken at various angles/locations and containing small amounts of noise (e.g. some pixels may be missing). Why might pooling be advantageous given these distortions in our dataset?
 
 \begin{subsolution}
-
+  Pooling would be advantageous to minimizing the effects of these distortions because pooling can give you an estimate of the average pattern or behavior in a given section of the image. By taking this average, we can get a sense of the overall idea of an image without getting distracted by fitting to noise by trying to learn from each pixel individually.
 \end{subsolution}
 
 \subsection{Hyperparameter Tuning}
@@ -396,7 +432,7 @@ The performance of neural networks depends to a large extent on the choice of hy
 \problem[5] Pick one of the three hyperparameter tuning strategies, and explain at least one strength and one limitation of using that strategy to tune your model.
 
 \begin{subsolution}
-
+  Choosing \textbf{Random search:} to study, we can see that one strength that it has is that it is much less susceptible to human bias than the other two methods. With Random Search, we are allowing a lot of freedom to choose a wide range of hyperparameters which increases the likelihood that our ideal hyperparameters are somewhere in this space. However, one limitation to this approach is that is will likely take the longest to find a decent, let-alone 'strong,' hyperparameter. This is because with so much variety in choice, it is unlikely that you will randomly stumble across the optimal hyperparameter and once you decide to refine your search to a narrower region, you begin to incorporate human bias like in the other methods.
 \end{subsolution}
 
 \subsection{PyTorch implementation}
@@ -481,6 +517,12 @@ Do you foresee any problem with this way of validating our hyperparameters? If s
   \end{itemize}
 \end{itemize}
 \begin{solution}
+  \\
+  I found switching to Adam as an optimizer and using batch norm to be the most effective strategies in increasing the accuracy. Dropout was also good to adjust to try to correct the effects of layer sizes but it was much more difficult to come up with good values for them. Also, Dropout worked best at the start of the model (in the early layers) which makes sense because later into the model, we have feature detection and dropping a weight is much more unlikely to help the model rather than make it forget some important feature.
+  \\
+  \url{https://colab.research.google.com/drive/1qO5-9S98jp6PNXnVc65kZAZiCojroRxH}
+  \\ \includegraphics[width=12cm]{images/P4_F.png}
+  \\ \includegraphics{images/P4_F_fin_val.png}
 
 \end{solution}
 
