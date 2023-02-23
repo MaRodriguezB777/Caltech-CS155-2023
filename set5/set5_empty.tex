@@ -100,6 +100,7 @@ For each notebook, you need to save a copy to your drive.
 \textit{Hint}: For the diagonal matrix $\Sigma$, do we have to store every entry?
 
 \begin{solution}
+	Since we are truncating $\Sigma$, the only values that matter in $U$ and $V$ are the first $k$ columns. In other words, we would need to store $k \times N$ values in $U$ and then store $k$ values in $\Sigma$. Note that if we had $U$ be a $N \times k$ matrix and $\Sigma$ a $k \times k$ matrix, no information is lost. In terms of the product of $\Sigma$ with $V$, the last two rows of $V^T$ always are multiplied by zeros and thus do not do anything. This means we can reduce $V^T$ to be a $k \times N$ matrix $\implies$ $V$ is a $N \times k$ matrix. In total, we would need to store $k\cdot{2N+1}$ values. This would be more efficient to store when $k\cdot{2N+1} < N^2$.
 \end{solution}
 
 \subsection{Dimensions \& Orthogonality} In class, we claimed that a matrix $X$ of size $D \times N$ can be decomposed into $U\Sigma V^T$, where $U$ and $V$ are orthogonal and $\Sigma$ is a diagonal matrix. This is a slight simplification of the truth. In fact, the singular value decomposition gives an orthogonal matrix $U$ of size $D \times D$, an orthogonal matrix $V$ of size $N \times N$, and a rectangular diagonal matrix $\Sigma$ of size $D \times N$, where $\Sigma$ only has non-zero values on entries $(\Sigma)_{ii}$, $i \in \{1, \ldots, K\}$, where $K$ is the rank of the matrix $X$. 
@@ -107,17 +108,41 @@ For each notebook, you need to save a copy to your drive.
 \problem[3]Assume that $D > N$ and that $X$ has rank $N$. Show that $U\Sigma = U'\Sigma'$, where $\Sigma'$ is the $N \times N$ matrix consisting of the first $N$ rows of $\Sigma$, and $U'$ is the $D \times N$ matrix consisting of the first $N$ columns of $U$. The representation $U'\Sigma' V^T$ is called the ``thin'' SVD of $X$.
 
 \begin{solution}
-
+	\begin{align*}
+		U = 
+		\begin{bmatrix}
+			u_{11} & \cdots & u_{1D} \\
+			\vdots & \ddots & \vdots \\
+			u_{D1} & \cdots & u_{DD}
+		\end{bmatrix}, \text{since X has rank N},
+		\Sigma = 
+		\begin{bmatrix}
+			\sigma_{11} & 0 & 0 & 0 & \cdots & 0 \\
+			0 & \sigma_{22} & 0 & 0 & \cdots & 0 \\
+			\vdots & 0 & \ddots & 0 & \cdots & \vdots \\
+			0 & \cdots & 0 & \sigma_{NN} & \cdots & 0\\
+			0 & \cdots & 0 & 0 & \ddots & \vdots \\
+			0 & \cdots & 0 & 0 & \cdots & 0
+		\end{bmatrix}
+	\end{align*}
+	Notably, $$
+		U\Sigma = 
+		\begin{bmatrix}
+			\sigma_{11}\mathbf{u_{1}} & \cdots & \sigma_{NN}\mathbf{u_{N}} & 0 & \cdots & 0
+		\end{bmatrix}
+	$$ where $\mathbf{u_{i}}$ is the $i^{th}$ column of $U$. The columns after the $N^{th}$ column of $U$ and $\Sigma$ do not convey any information (since those $\mathbf{u_{i}}$ would be multiplied by a scalar $0$), and thus we can reduce $U$ and $\Sigma$ to be their first $N$ columns. These new matrices $U'$ and $\Sigma'$ would have dimension $D \times N$ and $N \times N$, respectively, as specified in the problem statement.
 \end{solution}
 
 \problem[3] Show that since $U'$ is not square, it cannot be orthogonal according to the definition given in class. Recall that a matrix $A$ is orthogonal if $A A^T = A^T A = I$.
 
 \begin{solution}
-\end{solution} 
+	Assume $U'$ is orthogonal. Then the dimensionality of $U'U'^T$ is $D \times D$ and $U'^TU'$ has dimensionality $N \times N$. Therefore, $U'U'^T \neq U'^TU'$. This is a contradiction, and thus $U'$ cannot be orthogonal.
+\end{solution}
 
 \problem[4] Even though $U'$ is not orthogonal, it still has similar properties. Show that $U^{'T} U' = I_{N \times N}$. Is it also true that $U' U^{'T} = I_{D \times D}$? Why or why not? Note that the columns of $U'$ are still orthonormal. Also note that orthonormality implies linear independence.
 
 \begin{solution}
+	Since $U$ is orthogonal, we know that for any column $u_i$ in $U$, $u_{i}^{T}u_{i} = 1$ and $u_{i}^{T}u_{j} = 0$ when $i \neq j$. Orthogonality also implies that this holds for the rows of $U$. Since the columns in $U'$ are taken from the columns in $U$, they still hold these properties. Therefore, $U'^TU' = I_{N \times N}$. However, when doing $U'U'^T$, you are not getting the dot product of the same rows as $U$, you are only getting the dot product of the first $N$ components since $U'$ is truncated. Therefore, it is not necessarily the case that $U'U'^T = I_{D \times D}$. 
 \end{solution}
 
 \newpage
@@ -160,9 +185,10 @@ v_j &= v_j - \eta \partial_{v_j}
 where $\eta$ is the learning rate.
 
 \begin{solution}
-	\\ $\|U\|_F^2 = \sum_{m,k} (U_{mk})^2$ and $\|V\|_F^2 = \sum_{n,k} (V_{nk})^2$
-	$$\implies \partial_{u_i} = \frac{\lambda}{2} \cdot 2 \cdot u_{i} - \sum_{j} v_{j}(y_{ij} - u_{i}^T v_{j})^T$$
-	$$\implies \partial_{}$$
+	\\ $\|U\|_F^2 = \sum_{m,k} (U_{mk})^2$ and $\|V\|_F^2 = \sum_{n,k} (V_{nk})^2$. Since the only parts of $\|U\|_F^2$ that are affected by $u_i$ are those that are components in $u_i$, we can say that:
+	$$\implies \partial_{u_i} = \frac{\lambda}{2} \cdot 2 \cdot u_{i} - \sum_{j} v_{j}(y_{ij} - u_{i}^T v_{j})^T = \lambda{u_{i}} - \sum_{j} v_{j}(y_{ij} - u_{i}^T v_{j})^T$$
+	By symmetry of $U$ and $V$ and $u_i$ and $v_j$,
+	$$\implies \partial_{v_j} = \lambda{v_{j}} - \sum_{j} u_i(y_{ij} - u_{i}^T v_{j})^T$$
 \end{solution}
 
 \problem[5]Another method to minimize the regularized squared error is alternating least squares (ALS). ALS solves the problem by first fixing $U$ and solving for the optimal $V$, then fixing this new $V$ and solving for the optimal $U$.  This process is repeated until convergence.
@@ -170,6 +196,9 @@ where $\eta$ is the learning rate.
 Derive closed form expressions for the optimal $u_i$ and $v_j$.  That is, give an expression for the $u_i$ that minimizes the above regularized square error given fixed $V$, and an expression for the $v_j$ that minimizes it given fixed $U$.
 
 \begin{solution}
+	Given that V is fixed, and that we are trying to minimize based on just $u_i$, the equation to minimize reduces to $$\argmin_{u_i}\lambda \left( \|u_i\|_F^2\right) + \sum_{j} \left( y_{ij} - u_i^Tv_j\right)^2$$ since  $\|V\|^2_F$ is a constant and the rest of the components of $U$ are held constant. Notably, if we treat the matrix $V$ as the matrix of input features of a model with weights $u_i$, this equation looks exactly like minimizing the mean-squared error using linear regression with regularization. From previous problem sets and lecture we have seen that this reduces to
+	$$u_{i} = (\lambda I_K + V^T V)^{-1} V^T y_{i}^T $$ where $y_{i}^T$ is the $i^{th}$ row of $Y$. 
+	Similarly, by symmetry, the same is true given that $U$ is fixed and we are trying to find $v_j$ $\implies v_{j} = (\lambda I_K + U^T U)^{-1} U^T y_{j}$ where $y_{j}$ is the $j^{th}$ column of $Y$.
 \end{solution}
 
 \problem[10]Download the provided MovieLens dataset (train.txt and test.txt).  The format of the data is (\emph{user, movie, rating}), where each triple encodes the rating that a particular user gave to a particular movie. Make sure you check if the user and movie ids are 0 or 1-indexed, as you should with any real-world dataset.
